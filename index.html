@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🏀 Pick Your 20 Lessons</title>
+  <style>
+    /* ── RESET & BASE ── */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+    }
+
+    body {
+      background: #0b0e1a;
+      min-height: 100vh;
+      padding: 20px;
+      background-image: 
+        radial-gradient(ellipse at 20% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 50% 100%, rgba(251, 191, 36, 0.04) 0%, transparent 50%);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #2d1b3d 100%);
+      border-radius: 24px;
+      padding: 28px 36px;
+      color: white;
+      box-shadow: 0 20px 50px -8px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      margin-bottom: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(251, 191, 36, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .header-text h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      position: relative;
+    }
+    .header-text h1 span {
+      background: linear-gradient(90deg, #fbbf24, #f59e0b, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header-text h1 .fire {
+      -webkit-text-fill-color: initial;
+      color: #f97316;
+    }
+    .header-text p {
+      opacity: 0.7;
+      font-size: 1.05rem;
+      margin-top: 4px;
+      -webkit-text-fill-color: white;
+      font-weight: 300;
+      letter-spacing: 0.3px;
+    }
+
+    .progress-area {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 12px 22px;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      z-index: 2;
+    }
+
+    .counter {
+      font-size: 1.8rem;
+      font-weight: 800;
+      display: flex;
+      align-items: baseline;
+      gap: 3px;
+      color: #fbbf24;
+    }
+    .counter .max {
+      font-size: 1.1rem;
+      opacity: 0.4;
+      font-weight: 400;
+      color: #94a3b8;
+    }
+
+    .progress-bar-bg {
+      width: 160px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #fbbf24, #f97316, #ef4444);
+      border-radius: 10px;
+      transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+    }
+
+    .clear-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      padding: 6px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-size: 0.85rem;
+      letter-spacing: 0.3px;
+    }
+    .clear-btn:hover {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      transform: scale(1.02);
+    }
+
+    /* ── CATEGORY ── */
+    .category-section {
+      margin-bottom: 36px;
+    }
+    .category-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.06);
+    }
+    .category-title .cat-emoji {
+      font-size: 1.6rem;
+    }
+    .category-title .cat-count {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: #64748b;
+      margin-left: auto;
+      background: rgba(255,255,255,0.04);
+      padding: 2px 14px;
+      border-radius: 30px;
+    }
+
+    /* ── TOPIC GRID ── */
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 14px;
+    }
+
+    /* ── CARD ── */
+    .topic-card {
+      background: linear-gradient(145deg, #141b2b, #1a2335);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: default;
+      position: relative;
+    }
+
+    .topic-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), transparent 50%, rgba(239, 68, 68, 0.05));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .topic-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(251, 191, 36, 0.15);
+      box-shadow: 0 8px 35px rgba(0, 0, 0, 0.5), 0 0 30px rgba(251, 191, 36, 0.02);
+    }
+
+    .topic-card.selected {
+      border-color: #fbbf24;
+      background: linear-gradient(145deg, #1a2335, #1e2a45);
+      box-shadow: 0 8px 35px rgba(0, 0, 0, 0.5), 0 0 40px rgba(251, 191, 36, 0.06);
+    }
+
+    .topic-card.selected::before {
+      background: linear-gradient(135deg, #fbbf24, #f97316, #fbbf24);
+      opacity: 0.3;
+    }
+
+    .topic-card.disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      filter: grayscale(0.5);
+      pointer-events: none;
+    }
+
+    /* ── CARD HEADER ── */
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px 6px 18px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .card-header .number {
+      background: rgba(255, 255, 255, 0.05);
+      color: #64748b;
+      font-weight: 700;
+      font-size: 0.75rem;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 40px;
+      flex-shrink: 0;
+      transition: all 0.3s;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .topic-card.selected .number {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #0f172a;
+      border-color: #fbbf24;
+      box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+    }
+
+    .card-header .title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      flex: 1;
+      line-height: 1.3;
+      letter-spacing: 0.2px;
+    }
+    .topic-card.selected .title {
+      color: #fbbf24;
+    }
+
+    .card-header .check {
+      color: #334155;
+      font-size: 1.1rem;
+      font-weight: 700;
+      transition: all 0.3s;
+    }
+    .topic-card.selected .check {
+      color: #fbbf24;
+      text-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+    }
+
+    /* ── CARD PREVIEW ── */
+    .card-preview {
+      padding: 0 18px 6px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .grammar-tag {
+      background: rgba(255, 255, 255, 0.04);
+      color: #94a3b8;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 14px;
+      border-radius: 30px;
+      letter-spacing: 0.3px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      transition: all 0.3s;
+    }
+    .topic-card.selected .grammar-tag {
+      background: rgba(251, 191, 36, 0.1);
+      color: #fbbf24;
+      border-color: rgba(251, 191, 36, 0.15);
+    }
+
+    /* ── EXPAND BUTTON ── */
+    .expand-btn {
+      background: none;
+      border: none;
+      color: #475569;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 18px 10px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s;
+      width: 100%;
+      border-top: 1px solid transparent;
+      letter-spacing: 0.3px;
+    }
+    .expand-btn:hover {
+      color: #94a3b8;
+    }
+    .expand-btn .arrow {
+      display: inline-block;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      font-size: 0.65rem;
+    }
+    .topic-card.expanded .expand-btn .arrow {
+      transform: rotate(180deg);
+    }
+
+    /* ── DETAILS ── */
+    .topic-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                  padding 0.35s ease,
+                  opacity 0.35s ease;
+      opacity: 0;
+      padding: 0 18px;
+      background: rgba(0, 0, 0, 0.2);
+      border-top: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    .topic-card.expanded .topic-details {
+      max-height: 750px;
+      opacity: 1;
+      padding: 16px 18px 18px 18px;
+    }
+
+    .topic-details p {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+    .topic-details p:last-child {
+      margin-bottom: 0;
+    }
+    .topic-details strong {
+      color: #e2e8f0;
+      font-weight: 600;
+      margin-right: 4px;
+    }
+    .topic-details .highlight {
+      color: #fbbf24;
+      font-weight: 500;
+    }
+    .topic-details .vocab-list {
+      color: #60a5fa;
+      font-weight: 400;
+    }
+    .topic-details .turkish-target {
+      color: #f59e0b;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    /* ── PICKS SECTION ── */
+    .picks-section {
+      margin-top: 40px;
+      background: linear-gradient(145deg, #141b2b, #1a2335);
+      border-radius: 24px;
+      padding: 28px 32px;
+      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      transition: all 0.3s;
+    }
+    .picks-section.empty {
+      opacity: 0.5;
+    }
+    .picks-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .picks-header h2 {
+      font-size: 1.4rem;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+    }
+    .picks-header h2 span {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #0f172a;
+      font-size: 0.9rem;
+      padding: 2px 16px;
+      border-radius: 40px;
+      font-weight: 800;
+    }
+    .picks-header small {
+      color: #475569;
+      font-weight: 400;
+      font-size: 0.8rem;
+    }
+
+    .picks-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      min-height: 56px;
+      max-height: 260px;
+      overflow-y: auto;
+      align-items: flex-start;
+      padding: 4px 2px;
+    }
+    .picks-grid::-webkit-scrollbar {
+      width: 5px;
+    }
+    .picks-grid::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 10px;
+    }
+    .picks-grid::-webkit-scrollbar-thumb {
+      background: #fbbf24;
+      border-radius: 10px;
+    }
+
+    .pick-tag {
+      background: rgba(251, 191, 36, 0.08);
+      border: 1px solid rgba(251, 191, 36, 0.15);
+      color: #fbbf24;
+      padding: 5px 14px 5px 18px;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: popIn 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: all 0.2s;
+    }
+    .pick-tag:hover {
+      background: rgba(251, 191, 36, 0.14);
+      border-color: rgba(251, 191, 36, 0.3);
+    }
+    .pick-tag .remove {
+      background: none;
+      border: none;
+      color: #64748b;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0 2px;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+    .pick-tag .remove:hover {
+      color: #f87171;
+    }
+
+    .empty-message {
+      color: #475569;
+      font-size: 0.95rem;
+      padding: 12px 0;
+      width: 100%;
+      text-align: center;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.85); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1e293b;
+      color: white;
+      padding: 12px 32px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+      z-index: 999;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0px);
+    }
+    .toast.success {
+      background: #065f46;
+      border-color: rgba(52, 211, 153, 0.2);
+    }
+    .toast.warning {
+      background: #78350f;
+      border-color: rgba(251, 191, 36, 0.2);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .header { padding: 22px; }
+      .header-text h1 { font-size: 1.6rem; }
+      .topic-grid { grid-template-columns: 1fr; }
+      .progress-area { width: 100%; justify-content: space-between; }
+      .progress-bar-bg { width: 100px; }
+      .picks-section { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-text">
+      <h1>🏀 Pick Your <span>20</span> <span class="fire">🔥</span></h1>
+      <p>👆 Click a topic · <strong>▼ Details</strong> for grammar & vocab</p>
+    </div>
+    <div class="progress-area">
+      <div class="counter"><span id="selectedCount">0</span><span class="max"> / 20</span></div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+      <button class="clear-btn" id="clearAllBtn">✕ Clear</button>
+    </div>
+  </header>
+
+  <!-- TOPICS -->
+  <main id="topicContainer"></main>
+
+  <!-- PICKS -->
+  <section class="picks-section empty" id="picksSection">
+    <div class="picks-header">
+      <h2>🧩 Your Picks <span id="picksCounter">0</span></h2>
+      <small>Click ✕ on a tag to remove</small>
+    </div>
+    <div class="picks-grid" id="picksGrid">
+      <div class="empty-message">✨ Click topics above to build your 20-lesson curriculum</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ==============================================================
+  // 50 SIMPLE TOPICS for a teen ESL student (B1 level)
+  // Each topic includes: grammar lesson + target (English + Turkish)
+  // All topics are basketball-friendly but span school, life, tech
+  // ==============================================================
+  const topicsData = [
+    // ====== 🏀 BASKETBALL & HOOPS ======
+    { id: 1, category: "🏀 Basketball & Hoops", title: "My Favorite Player",
+      description: "Talk about your favorite basketball player. What do you like about them?",
+      grammar: "Present Simple (describing facts and habits)",
+      target: "I can describe a person using present simple.",
+      targetTr: "Geniş zaman kullanarak bir kişiyi tanımlayabilirim.",
+      vocabulary: "player, team, jersey, shoes, dunk, three-pointer, skills, fans" },
+
+    { id: 2, category: "🏀 Basketball & Hoops", title: "My Basketball Routine",
+      description: "What do you do before, during, and after a practice or game?",
+      grammar: "Adverbs of Frequency (always, usually, sometimes, never)",
+      target: "I can talk about how often I do things.",
+      targetTr: "Bir şeyi ne sıklıkla yaptığımı anlatabilirim.",
+      vocabulary: "practice, warm-up, stretch, drills, scrimmage, cool-down, shower" },
+
+    { id: 3, category: "🏀 Basketball & Hoops", title: "The Best Game I Ever Played",
+      description: "Tell the story of your best game ever. What happened?",
+      grammar: "Past Simple (talking about finished past events)",
+      target: "I can tell a short story in the past.",
+      targetTr: "Geçmişte yaşanmış kısa bir hikaye anlatabilirim.",
+      vocabulary: "score, win, lose, teammate, coach, crowd, excited, nervous" },
+
+    { id: 4, category: "🏀 Basketball & Hoops", title: "My Basketball Dream",
+      description: "What is your dream in basketball? Do you want to go pro?",
+      grammar: "Future with 'will' and 'going to' (plans and predictions)",
+      target: "I can talk about my future plans and dreams.",
+      targetTr: "Gelecek planlarım ve hayallerim hakkında konuşabilirim.",
+      vocabulary: "dream, professional, league, NBA, college, scholarship, hard work" },
+
+    { id: 5, category: "🏀 Basketball & Hoops", title: "My Worst Basketball Moment",
+      description: "Tell the story of a bad game or a big mistake. What happened?",
+      grammar: "Past Simple (narrating past events)",
+      target: "I can tell a story using past tense.",
+      targetTr: "Geçmiş zaman kullanarak bir hikaye anlatabilirim.",
+      vocabulary: "missed shot, turnover, foul, lose, embarrassed, lesson learned" },
+
+    { id: 6, category: "🏀 Basketball & Hoops", title: "Comparing Players: LeBron vs. Jordan",
+      description: "Compare two basketball players. Who is better and why?",
+      grammar: "Comparatives (better than, faster than, taller than)",
+      target: "I can compare two people or things.",
+      targetTr: "İki kişiyi veya şeyi karşılaştırabilirim.",
+      vocabulary: "better, stronger, faster, more athletic, champion, rings" },
+
+    { id: 7, category: "🏀 Basketball & Hoops", title: "My Basketball Equipment",
+      description: "What do you need for basketball? Describe your shoes, ball, and gear.",
+      grammar: "Definite and Indefinite Articles (a, an, the)",
+      target: "I can correctly use a/an/the when talking about things.",
+      targetTr: "Eşyalar hakkında konuşurken a/an/the'yi doğru kullanabilirim.",
+      vocabulary: "sneakers, ball, hoop, jersey, shorts, socks, headband, grip" },
+
+    { id: 8, category: "🏀 Basketball & Hoops", title: "My Favorite Team",
+      description: "Which team do you support? Why do you like them?",
+      grammar: "Present Simple (likes and dislikes)",
+      target: "I can express my preferences and give reasons.",
+      targetTr: "Tercihlerimi ifade edebilir ve nedenlerini söyleyebilirim.",
+      vocabulary: "support, win, lose, championship, colors, stadium, fans, history" },
+
+    // ====== 📚 SCHOOL LIFE ======
+    { id: 9, category: "📚 School Life", title: "My Favorite Subject",
+      description: "What school subject do you like most? Why is it your favorite?",
+      grammar: "Present Simple (expressing opinions)",
+      target: "I can give reasons for my opinions.",
+      targetTr: "Fikirlerim için nedenler gösterebilirim.",
+      vocabulary: "math, science, history, English, art, PE, teacher, interesting" },
+
+    { id: 10, category: "📚 School Life", title: "A Typical School Day",
+      description: "What do you do on a normal school day?",
+      grammar: "Present Simple (daily routines)",
+      target: "I can describe my daily routine.",
+      targetTr: "Günlük rutinimi anlatabilirim.",
+      vocabulary: "wake up, breakfast, school bus, class, lunch, homework, dinner, sleep" },
+
+    { id: 11, category: "📚 School Life", title: "My Teachers",
+      description: "Which teacher do you like? Which teacher is strict?",
+      grammar: "Adjectives (describing people)",
+      target: "I can describe people using adjectives.",
+      targetTr: "Sıfatlar kullanarak insanları tanımlayabilirim.",
+      vocabulary: "strict, funny, kind, helpful, smart, boring, energetic, patient" },
+
+    { id: 12, category: "📚 School Life", title: "Homework: Yes or No?",
+      description: "Do you think homework is helpful or a waste of time?",
+      grammar: "Modal Verbs: should / shouldn't (giving opinions)",
+      target: "I can give my opinion using should/shouldn't.",
+      targetTr: "should/shouldn't kullanarak fikrimi söyleyebilirim.",
+      vocabulary: "homework, helpful, waste, practice, review, stress, free time" },
+
+    { id: 13, category: "📚 School Life", title: "School Lunch",
+      description: "What do you eat for lunch at school? Is it good or bad?",
+      grammar: "Countable and Uncountable Nouns (some, any, a lot of)",
+      target: "I can talk about food using some/any/much/many.",
+      targetTr: "Yiyecekler hakkında some/any/much/many kullanarak konuşabilirim.",
+      vocabulary: "pizza, sandwich, salad, fruit, juice, hungry, delicious, terrible" },
+
+    { id: 14, category: "📚 School Life", title: "My Best Friend at School",
+      description: "Who is your best friend? What do you do together?",
+      grammar: "Present Continuous (things happening now / temporary actions)",
+      target: "I can talk about what people are doing right now.",
+      targetTr: "İnsanların şu anda ne yaptığı hakkında konuşabilirim.",
+      vocabulary: "best friend, together, lunch, laugh, share, help, trust, hang out" },
+
+    // ====== 🎮 GAMING & TECH ======
+    { id: 15, category: "🎮 Gaming & Tech", title: "My Favorite Game",
+      description: "What video games do you play? Why do you like them?",
+      grammar: "Present Simple (preferences)",
+      target: "I can talk about my hobbies and preferences.",
+      targetTr: "Hobilerim ve tercihlerim hakkında konuşabilirim.",
+      vocabulary: "game, console, PC, online, multiplayer, fun, competitive, addicted" },
+
+    { id: 16, category: "🎮 Gaming & Tech", title: "How Much Screen Time Is Too Much?",
+      description: "How many hours do you spend on your phone or games? Is it too much?",
+      grammar: "Quantifiers (too much, too many, enough)",
+      target: "I can talk about amounts using too much/too many.",
+      targetTr: "Miktarlar hakkında too much/too many kullanarak konuşabilirim.",
+      vocabulary: "screen time, phone, tablet, TV, hours, limit, healthy, balance" },
+
+    { id: 17, category: "🎮 Gaming & Tech", title: "My YouTube Channel",
+      description: "If you had a YouTube channel, what would you post about?",
+      grammar: "Conditional with 'would' (imaginary situations)",
+      target: "I can talk about imaginary situations using would.",
+      targetTr: "Hayali durumlar hakkında would kullanarak konuşabilirim.",
+      vocabulary: "channel, subscribe, like, comment, share, video, editor, fans" },
+
+    { id: 18, category: "🎮 Gaming & Tech", title: "Social Media: Good or Bad?",
+      description: "Do you use Instagram or TikTok? Are they good or bad for teens?",
+      grammar: "Expressing opinions (I think, In my opinion, I believe)",
+      target: "I can express my opinion clearly.",
+      targetTr: "Fikrimi açıkça ifade edebilirim.",
+      vocabulary: "social media, post, like, follow, follower, friend, real life, fake" },
+
+    { id: 19, category: "🎮 Gaming & Tech", title: "My Favorite YouTuber",
+      description: "Who is your favorite YouTuber or TikToker? Why do you watch them?",
+      grammar: "Relative Clauses (who, that, which)",
+      target: "I can describe people using relative clauses.",
+      targetTr: "İlgi cümlecikleri kullanarak insanları tanımlayabilirim.",
+      vocabulary: "YouTuber, gamer, funny, cool, informative, entertaining, channel" },
+
+    // ====== 💪 HEALTH & FITNESS ======
+    { id: 20, category: "💪 Health & Fitness", title: "My Workout Routine",
+      description: "How do you stay fit? What exercises do you do?",
+      grammar: "Present Simple (habits and routines)",
+      target: "I can describe my fitness routine.",
+      targetTr: "Fitness rutinimi anlatabilirim.",
+      vocabulary: "exercise, push-ups, pull-ups, run, stretch, gym, muscle, sweat" },
+
+    { id: 21, category: "💪 Health & Fitness", title: "Healthy Food",
+      description: "What foods are good for you? What do you like to eat?",
+      grammar: "Countable/Uncountable Nouns (some, any, a lot of)",
+      target: "I can talk about food and health.",
+      targetTr: "Yiyecekler ve sağlık hakkında konuşabilirim.",
+      vocabulary: "protein, carbs, vegetables, fruit, water, energy, junk food" },
+
+    { id: 22, category: "💪 Health & Fitness", title: "Sleep and Sports",
+      description: "How many hours do you sleep? Does sleep affect your game?",
+      grammar: "Zero Conditional (If I don't sleep, I feel tired)",
+      target: "I can talk about cause and effect.",
+      targetTr: "Neden-sonuç ilişkisi hakkında konuşabilirim.",
+      vocabulary: "sleep, energy, recovery, tired, focused, game, practice, health" },
+
+    { id: 23, category: "💪 Health & Fitness", title: "Injuries: Have You Ever Been Hurt?",
+      description: "Have you ever been injured playing sports? What happened?",
+      grammar: "Present Perfect (talking about past experiences)",
+      target: "I can talk about past experiences using have/has + past participle.",
+      targetTr: "Geçmiş deneyimlerim hakkında have/has + past participle kullanarak konuşabilirim.",
+      vocabulary: "sprain, twist, ankle, injury, doctor, ice, rest, recover" },
+
+    { id: 24, category: "💪 Health & Fitness", title: "PE Class",
+      description: "What do you do in PE? Do you like it?",
+      grammar: "Present Simple (describing activities)",
+      target: "I can describe classes and activities.",
+      targetTr: "Dersleri ve aktiviteleri tanımlayabilirim.",
+      vocabulary: "PE, sports, football, basketball, running, teacher, team, competition" },
+
+    // ====== 🎵 MUSIC & CULTURE ======
+    { id: 25, category: "🎵 Music & Culture", title: "My Music Playlist",
+      description: "What songs do you listen to before a game? What music do you like?",
+      grammar: "Present Simple (preferences)",
+      target: "I can talk about my music preferences.",
+      targetTr: "Müzik tercihlerim hakkında konuşabilirim.",
+      vocabulary: "playlist, song, artist, genre, rap, pop, rock, lyrics, rhythm" },
+
+    { id: 26, category: "🎵 Music & Culture", title: "My Favorite Movie or TV Show",
+      description: "What is your favorite movie or TV show? Why do you like it?",
+      grammar: "Superlatives (the best, the worst, the most)",
+      target: "I can say which is the best/worst.",
+      targetTr: "En iyi/en kötü olanı söyleyebilirim.",
+      vocabulary: "movie, show, actor, story, funny, exciting, boring, episode" },
+
+    { id: 27, category: "🎵 Music & Culture", title: "Celebrities I Like",
+      description: "Which celebrities do you like? Why do you follow them?",
+      grammar: "Relative Clauses (who, that, which)",
+      target: "I can describe people I admire.",
+      targetTr: "Hayran olduğum insanları tanımlayabilirim.",
+      vocabulary: "celebrity, famous, rich, talented, actor, singer, athlete, Instagram" },
+
+    { id: 28, category: "🎵 Music & Culture", title: "Sports on TV",
+      description: "Do you watch sports on TV? What sports do you watch?",
+      grammar: "Present Simple (habits)",
+      target: "I can talk about my TV habits.",
+      targetTr: "Televizyon alışkanlıklarım hakkında konuşabilirim.",
+      vocabulary: "match, game, TV, live, commentator, replay, highlight, channel" },
+
+    { id: 29, category: "🎵 Music & Culture", title: "My Favorite Sneakers",
+      description: "What sneakers do you like? Why are they special?",
+      grammar: "Adjectives (describing things)",
+      target: "I can describe things using adjectives.",
+      targetTr: "Sıfatlar kullanarak eşyaları tanımlayabilirim.",
+      vocabulary: "sneakers, shoes, style, color, comfortable, cool, expensive, limited" },
+
+    // ====== 👨‍👩‍👧 FAMILY & FRIENDS ======
+    { id: 30, category: "👨‍👩‍👧 Family & Friends", title: "My Family",
+      description: "Who is in your family? What do you do together?",
+      grammar: "Present Simple (describing relationships)",
+      target: "I can describe my family members.",
+      targetTr: "Aile bireylerimi tanımlayabilirim.",
+      vocabulary: "mom, dad, brother, sister, cousin, uncle, grandmother, together" },
+
+    { id: 31, category: "👨‍👩‍👧 Family & Friends", title: "My Best Friend",
+      description: "Who is your best friend? How long have you known them?",
+      grammar: "Present Perfect (with for and since)",
+      target: "I can talk about how long I've known someone.",
+      targetTr: "Birini ne kadar süredir tanıdığımı anlatabilirim.",
+      vocabulary: "best friend, know, childhood, trust, fun, support, loyal, honest" },
+
+    { id: 32, category: "👨‍👩‍👧 Family & Friends", title: "Rules at Home",
+      description: "What rules do your parents have? Do you think they are fair?",
+      grammar: "Modal Verbs: have to, don't have to (obligation)",
+      target: "I can talk about rules and obligations.",
+      targetTr: "Kurallar ve zorunluluklar hakkında konuşabilirim.",
+      vocabulary: "rule, curfew, chores, homework, phone, parents, fair, unfair" },
+
+    { id: 33, category: "👨‍👩‍👧 Family & Friends", title: "My Weekend",
+      description: "What do you usually do on weekends?",
+      grammar: "Present Simple (weekly routines)",
+      target: "I can describe my weekend routine.",
+      targetTr: "Hafta sonu rutinimi anlatabilirim.",
+      vocabulary: "weekend, relax, sleep in, hang out, friends, practice, game, fun" },
+
+    { id: 34, category: "👨‍👩‍👧 Family & Friends", title: "Family Dinner",
+      description: "Do you eat dinner with your family? What do you talk about?",
+      grammar: "Present Simple (habits and traditions)",
+      target: "I can describe family traditions.",
+      targetTr: "Aile geleneklerini tanımlayabilirim.",
+      vocabulary: "dinner, talk, share, news, laugh, cook, favorite food, together" },
+
+    // ====== 💰 MONEY & FUTURE ======
+    { id: 35, category: "💰 Money & Future", title: "My Future Job",
+      description: "What do you want to be when you grow up? Why?",
+      grammar: "Future with 'will' and 'going to' (plans)",
+      target: "I can talk about my future plans.",
+      targetTr: "Gelecek planlarım hakkında konuşabilirim.",
+      vocabulary: "job, career, coach, teacher, doctor, business, player, agent" },
+
+    { id: 36, category: "💰 Money & Future", title: "Pocket Money",
+      description: "Do you get pocket money? How do you spend it?",
+      grammar: "Present Simple (habits with money)",
+      target: "I can talk about how I spend money.",
+      targetTr: "Parayı nasıl harcadığımı anlatabilirim.",
+      vocabulary: "pocket money, save, spend, shoes, games, snacks, piggy bank" },
+
+    { id: 37, category: "💰 Money & Future", title: "What Would You Buy?",
+      description: "If you had $500, what would you buy?",
+      grammar: "Second Conditional (If I had..., I would...)",
+      target: "I can talk about imaginary situations with money.",
+      targetTr: "Parayla ilgili hayali durumlar hakkında konuşabilirim.",
+      vocabulary: "buy, sneakers, phone, game, save, donate, expensive, gift" },
+
+    { id: 38, category: "💰 Money & Future", title: "My Dream House",
+      description: "What would your dream house look like? Where would it be?",
+      grammar: "Second Conditional (If I could..., I would...)",
+      target: "I can describe my dream house using would.",
+      targetTr: "Hayalimdeki evi would kullanarak tanımlayabilirim.",
+      vocabulary: "house, big, pool, garden, view, city, beach, comfortable" },
+
+    { id: 39, category: "💰 Money & Future", title: "College or Work?",
+      description: "After high school, do you want to go to college or start working?",
+      grammar: "Future with 'will' (plans and predictions)",
+      target: "I can talk about my future after school.",
+      targetTr: "Okuldan sonraki geleceğim hakkında konuşabilirim.",
+      vocabulary: "college, university, work, job, career, study, decide, future" },
+
+    // ====== 🚀 WILD & FUN TOPICS ======
+    { id: 40, category: "🚀 Wild & Fun", title: "If I Had a Superpower",
+      description: "What superpower would you want? How would you use it?",
+      grammar: "Second Conditional (If I had..., I would...)",
+      target: "I can talk about imaginary superpowers.",
+      targetTr: "Hayali süper güçler hakkında konuşabilirim.",
+      vocabulary: "superpower, invisibility, fly, read minds, strength, help, protect" },
+
+    { id: 41, category: "🚀 Wild & Fun", title: "My Dream Vacation",
+      description: "If you could go anywhere, where would you go?",
+      grammar: "Second Conditional (If I could..., I would...)",
+      target: "I can talk about imaginary travel plans.",
+      targetTr: "Hayali seyahat planları hakkında konuşabilirim.",
+      vocabulary: "vacation, beach, mountains, city, explore, culture, relax, hotel" },
+
+    { id: 42, category: "🚀 Wild & Fun", title: "Time Travel",
+      description: "If you could travel in time, would you go to the past or the future? Why?",
+      grammar: "Second Conditional (If I could..., I would...)",
+      target: "I can talk about imaginary time travel.",
+      targetTr: "Hayali zaman yolculuğu hakkında konuşabilirim.",
+      vocabulary: "past, future, visit, change, see, history, technology, exciting" },
+
+    { id: 43, category: "🚀 Wild & Fun", title: "Aliens and UFOs",
+      description: "Do you believe in aliens? What would you do if you saw a UFO?",
+      grammar: "First Conditional (If I see..., I will...)",
+      target: "I can talk about possible future events.",
+      targetTr: "Gelecekte olabilecek olası olaylar hakkında konuşabilirim.",
+      vocabulary: "alien, UFO, space, believe, strange, government, secret, curious" },
+
+    { id: 44, category: "🚀 Wild & Fun", title: "My Celebrity Dinner",
+      description: "If you could have dinner with any celebrity, who would it be?",
+      grammar: "Second Conditional (If I could..., I would...)",
+      target: "I can talk about imaginary situations.",
+      targetTr: "Hayali durumlar hakkında konuşabilirim.",
+      vocabulary: "celebrity, dinner, invite, talk, ask, photos, autograph, memory" },
+
+    { id: 45, category: "🚀 Wild & Fun", title: "Life on Another Planet",
+      description: "Would you like to live on Mars? Why or why not?",
+      grammar: "Second Conditional (If I lived..., I would...)",
+      target: "I can imagine a different life.",
+      targetTr: "Farklı bir hayat hayal edebilirim.",
+      vocabulary: "Mars, planet, space, colony, lonely, adventure, new world" },
+
+    { id: 46, category: "🚀 Wild & Fun", title: "My Perfect Day",
+      description: "Describe your perfect day from morning to night.",
+      grammar: "Present Simple (imaginary routine)",
+      target: "I can describe an imaginary perfect day.",
+      targetTr: "Hayalimdeki mükemmel günü anlatabilirim.",
+      vocabulary: "perfect, morning, afternoon, evening, friends, fun, relax, enjoy" },
+
+    // ====== 🧠 REAL LIFE & CHOICES ======
+    { id: 47, category: "🧠 Real Life & Choices", title: "Moving to a New City",
+      description: "How would you feel if you had to move to a new city?",
+      grammar: "Second Conditional (If I moved..., I would...)",
+      target: "I can talk about imaginary changes.",
+      targetTr: "Hayali değişiklikler hakkında konuşabilirim.",
+      vocabulary: "move, new city, new school, friends, nervous, excited, difficult" },
+
+    { id: 48, category: "🧠 Real Life & Choices", title: "Online vs. Real Life",
+      description: "Are you the same person online as in real life?",
+      grammar: "Comparatives (more... than, less... than)",
+      target: "I can compare online and real life.",
+      targetTr: "Çevrimiçi ve gerçek hayatı karşılaştırabilirim.",
+      vocabulary: "online, real life, different, confident, shy, social, true, fake" },
+
+    { id: 49, category: "🧠 Real Life & Choices", title: "Peer Pressure",
+      description: "Have your friends ever pressured you to do something you didn't want?",
+      grammar: "Past Simple (narrating a past experience)",
+      target: "I can tell a story about peer pressure.",
+      targetTr: "Akran baskısıyla ilgili bir hikaye anlatabilirim.",
+      vocabulary: "peer pressure, friends, say no, difficult, right, wrong, confident" },
+
+    { id: 50, category: "🧠 Real Life & Choices", title: "My Biggest Fear",
+      description: "What are you afraid of? How do you deal with it?",
+      grammar: "Present Simple (describing fears)",
+      target: "I can talk about my fears and how I handle them.",
+      targetTr: "Korkularım ve onlarla nasıl başa çıktığım hakkında konuşabilirim.",
+      vocabulary: "fear, scared, nervous, brave, try, face, overcome, support" }
+  ];
+
+  // --------------------------------------------------------------
+  // STATE
+  // --------------------------------------------------------------
+  const MAX_TOPICS = 20;
+  let selectedIds = new Set();
+
+  // DOM refs
+  const container = document.getElementById('topicContainer');
+  const picksGrid = document.getElementById('picksGrid');
+  const picksSection = document.getElementById('picksSection');
+  const selectedCountSpan = document.getElementById('selectedCount');
+  const picksCounterSpan = document.getElementById('picksCounter');
+  const progressFill = document.getElementById('progressFill');
+  const clearBtn = document.getElementById('clearAllBtn');
+  const toast = document.getElementById('toast');
+
+  // --------------------------------------------------------------
+  // RENDER TOPICS
+  // --------------------------------------------------------------
+  function renderTopics() {
+    const groups = {};
+    topicsData.forEach(t => {
+      if (!groups[t.category]) groups[t.category] = [];
+      groups[t.category].push(t);
+    });
+
+    let html = '';
+    for (const [cat, topics] of Object.entries(groups)) {
+      html += `<div class="category-section">
+        <div class="category-title">
+          <span class="cat-emoji">${cat.split(' ')[0]}</span>
+          ${cat.replace(/^[^\s]+\s/, '')}
+          <span class="cat-count">${topics.length} topics</span>
+        </div>
+        <div class="topic-grid">`;
+
+      topics.forEach(t => {
+        const isSelected = selectedIds.has(t.id);
+        const disabled = !isSelected && selectedIds.size >= MAX_TOPICS;
+        html += `
+          <div class="topic-card ${isSelected ? 'selected' : ''} ${disabled ? 'disabled' : ''}" data-id="${t.id}">
+            <div class="card-header" onclick="toggleTopic(${t.id})">
+              <span class="number">${t.id}</span>
+              <span class="title">${t.title}</span>
+              <span class="check">${isSelected ? '✓' : '◻'}</span>
+            </div>
+            <div class="card-preview" onclick="toggleTopic(${t.id})">
+              <span class="grammar-tag">📘 ${t.grammar}</span>
+            </div>
+            <button class="expand-btn" onclick="toggleExpand(event, ${t.id})">
+              <span class="arrow">▼</span> Details
+            </button>
+            <div class="topic-details">
+              <p><strong>💬 Talk About:</strong> ${t.description}</p>
+              <p><strong>📚 Grammar Focus:</strong> <span class="highlight">${t.grammar}</span></p>
+              <p><strong>🎯 Your Target:</strong> ${t.target}</p>
+              <p><strong>🇹🇷 Hedefin:</strong> <span class="turkish-target">${t.targetTr}</span></p>
+              <p><strong>🗣️ Key Words:</strong> <span class="vocab-list">${t.vocabulary}</span></p>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div></div>`;
+    }
+
+    container.innerHTML = html;
+    updateUI();
+  }
+
+  // --------------------------------------------------------------
+  // TOGGLE SELECTION
+  // --------------------------------------------------------------
+  function toggleTopic(id) {
+    const topic = topicsData.find(t => t.id === id);
+    if (!topic) return;
+
+    if (selectedIds.has(id)) {
+      selectedIds.delete(id);
+      showToast(`❌ Removed "${topic.title}"`, '');
+    } else {
+      if (selectedIds.size >= MAX_TOPICS) {
+        showToast(`⚠️ You can only pick ${MAX_TOPICS} topics!`, 'warning');
+        return;
+      }
+      selectedIds.add(id);
+      showToast(`✅ Added "${topic.title}" (${selectedIds.size}/${MAX_TOPICS})`, 'success');
+    }
+    renderTopics();
+  }
+
+  // --------------------------------------------------------------
+  // TOGGLE EXPAND
+  // --------------------------------------------------------------
+  function toggleExpand(event, id) {
+    event.stopPropagation();
+    const card = document.querySelector(`.topic-card[data-id="${id}"]`);
+    if (card) {
+      card.classList.toggle('expanded');
+    }
+  }
+
+  // --------------------------------------------------------------
+  // UPDATE UI
+  // --------------------------------------------------------------
+  function updateUI() {
+    const count = selectedIds.size;
+    selectedCountSpan.textContent = count;
+    picksCounterSpan.textContent = count;
+    progressFill.style.width = `${Math.min((count / MAX_TOPICS) * 100, 100)}%`;
+    renderSelectedPicks();
+    picksSection.classList.toggle('empty', count === 0);
+  }
+
+  // --------------------------------------------------------------
+  // RENDER SELECTED PICKS
+  // --------------------------------------------------------------
+  function renderSelectedPicks() {
+    const ids = Array.from(selectedIds);
+    if (ids.length === 0) {
+      picksGrid.innerHTML = `<div class="empty-message">✨ Click topics above to build your 20-lesson curriculum</div>`;
+      return;
+    }
+    let html = '';
+    ids.forEach(id => {
+      const topic = topicsData.find(t => t.id === id);
+      if (!topic) return;
+      html += `
+        <div class="pick-tag">
+          ${topic.title}
+          <button class="remove" onclick="toggleTopic(${topic.id})" title="Remove">✕</button>
+        </div>
+      `;
+    });
+    picksGrid.innerHTML = html;
+  }
+
+  // --------------------------------------------------------------
+  // CLEAR
+  // --------------------------------------------------------------
+  function clearAll() {
+    if (selectedIds.size === 0) return;
+    selectedIds.clear();
+    showToast('🗑️ Cleared all selections', '');
+    renderTopics();
+  }
+
+  // --------------------------------------------------------------
+  // TOAST
+  // --------------------------------------------------------------
+  let toastTimeout = null;
+
+  function showToast(msg, type = '') {
+    toast.textContent = msg;
+    toast.className = 'toast';
+    if (type) toast.classList.add(type);
+    toast.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  // --------------------------------------------------------------
+  // EVENTS
+  // --------------------------------------------------------------
+  clearBtn.addEventListener('click', clearAll);
+
+  // --------------------------------------------------------------
+  // INIT
+  // --------------------------------------------------------------
+  renderTopics();
+</script>
+</body>
+</html>
